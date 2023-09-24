@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Indice{% endblock titulo %}
+
+{% block css %} {% load static %}<link rel="stylesheet" href="{% static '/calculos_tesis_app/css/style.css' %}" />{% endblock css %}
+
+{% block header %} <h1>Index header</h1> {% endblock header %}
+
+{% block content %} 
+<h2>Index content</h2> 
+<ul>
+    <li><a href="{% url 'regla_mezclas_teoria' %}">regla_mezclas_teoria</a></li>
+    <li><a href="{% url 'regla_mezclas_calculos' %}">regla_mezclas_calculos</a></li>
+    <li><a href="{% url 'modelo_microestructura_periodica_teoria' %}">modelo_microestructura_periodica_teoria</a></li>
+    <li><a href="{% url 'modelo_microestructura_periodica_calculos' %}">modelo_microestructura_periodica_calculos</a></li>
+</ul>
+
+{% endblock content %}
+
+{% block footer %} <h3>Index footer</h3> {% endblock footer %}
+
+{% block javascript %} <h4>Index javascript</h4>  {% endblock javascript %}
