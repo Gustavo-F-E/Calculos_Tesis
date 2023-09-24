@@ -1,0 +1,23 @@
+python -m venv venv_tesis
+
+source venv_tesis/Scripts/activate
+
+python -m pip install Django==3.2
+
+django-admin startproject calculos_tesis
+
+cd calculos_tesis
+
+python manage.py runserver
+
+#creacion del archivo .gitignore https://www.toptal.com/developers/gitignore
+
+cd ..
+
+python -m pip freeze > requirements.txt
+
+cd calculos_tesis
+
+pip install django-environ
+
+python manage.py startapp calculos_tesis_app
