@@ -1,0 +1,689 @@
+{
+    "cells": [
+        {
+            "language": "markdown",
+            "source": [
+                "# Fórmulas de micromecánica con javascript\r\n\r\nEn primer lugar debemos instalar estas librerias para evitar errores de decimales en javascript:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "//npm install mathjs\r\n//npm install numeric\r\n\r\nconst math = require(\"mathjs\");\r\nconst numeric = require(\"numeric\");\r\n//const nnb = require(\"nnb\");"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "## Propiedades de la Fibra:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Módulo elástico de la fibra en dirección axial $E_{f\\,A}$:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const E_f_A = 239.4;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Módulo elástico de la fibra en dirección transversal $E_{f\\,T}$:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const E_f_T = 13;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Módulo de Poisson de la fibra en dirección axial $μ_{f\\,A}$:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const NU_f_A = 0.47;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Módulo de Poisson de la fibra en dirección trasnversal $μ_{f\\,T}$:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const NU_f_T = 0.17;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Módulo de corte de la fibra en dirección transversal $G_{f\\,T}$:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const G_f_T = E_f_T / (2 * (1 + NU_f_T));"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Módulo de corte de la fibra en dirección axial $G_{f\\,A}$:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const G_f_A = E_f_A/(2*(1+NU_f_A))"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Fracción en Volumen de la fibra $V_{f}$:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const V_f = 0.6;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "## Cuadro resumen de propiedade mecánicas de la fibra iniciales:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "//npm install cli-table\r\nconst Table = require('cli-table');\r\n\r\nconst propiedades = [\r\n    { propiedad: 'Módulo elástico de la fibra en dirección axial', valor: E_f_A, unidades: 'GPa' },\r\n    { propiedad: 'Módulo elástico de la fibra en dirección transversal', valor: E_f_T, unidades: 'GPa' },\r\n    { propiedad: 'Módulo de Poisson de la fibra en direccion axial', valor: NU_f_A, unidades: '--' },\r\n    { propiedad: 'Módulo de Poisson de la fibra en dirección transversal', valor: NU_f_T, unidades: '--' },\r\n    { propiedad: 'Módulo de corte de la fibra en dirección axial', valor: G_f_A, unidades: 'GPa' },\r\n    { propiedad: 'Módulo de corte de la fibra en dirección transversal', valor: G_f_T, unidades: 'GPa' },\r\n    { propiedad: 'Fracción en Volumen de la fibra', valor: V_f, unidades: '%' }\r\n    ];\r\n\r\n// Crear una tabla con bordes\r\nconst tabla_propiedades = new Table({\r\n    head: ['Propiedad', 'Valor', 'Unidades'],\r\n    colWidths: [60, 20, 20] // ajusta el ancho de las columnas según sea necesario\r\n});\r\n\r\n// Agregar datos a la tabla\r\npropiedades.forEach(prop => {\r\n    tabla_propiedades.push([prop.propiedad, prop.valor, prop.unidades]);\r\n})\r\n\r\n// Imprimir la tabla\r\nconsole.log(tabla_propiedades.toString());"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "┌────────────────────────────────────────────────────────────┬────────────────────┬────────────────────┐",
+                                "│ Propiedad                                                  │ Valor              │ Unidades           │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo elástico de la fibra en dirección axial             │ 239.4              │ GPa                │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo elástico de la fibra en dirección transversal       │ 13                 │ GPa                │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo de Poisson de la fibra en direccion axial           │ 0.47               │ --                 │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo de Poisson de la fibra en dirección transversal     │ 0.17               │ --                 │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo de corte de la fibra en dirección axial             │ 81.42857142857143  │ GPa                │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo de corte de la fibra en dirección transversal       │ 5.555555555555556  │ GPa                │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Fracción en Volumen de la fibra                            │ 0.6                │ %                  │",
+                                "└────────────────────────────────────────────────────────────┴────────────────────┴────────────────────┘",
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "## Propiedades de la Matriz:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Módulo elástico de la matriz $E_{m}$:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const E_m = 3.4;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Módulo de Poisson de la matriz $μ_{m}$:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const NU_m = 0.31;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Modulo de corte de la matriz $G_{m}$:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const G_m = E_m / (2 * (1 + NU_m));"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Fracción en Volumen de la matriz $V_{m}$:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const V_m = 0.4;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "## Cuadro resumen de propiedade mecánicas de la matriz iniciales:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const Table2 = require('cli-table');\r\n\r\nconst propiedades2 = [\r\n    { propiedad: 'Módulo elástico de la matriz', valor: E_m, unidades: 'GPa' },\r\n    { propiedad: 'Módulo de Poisson de la matriz', valor: NU_m, unidades: '--' },\r\n    { propiedad: 'Módulo de corte de la matriz', valor: G_m, unidades: 'GPa' },\r\n    { propiedad: 'Fracción en Volumen de la matriz', valor: V_m, unidades: '%' }\r\n    ];\r\n\r\n// Crear una tabla con bordes\r\nconst tabla_propiedades2 = new Table2({\r\n    head: ['Propiedad', 'Valor', 'Unidades'],\r\n    colWidths: [60, 20, 20] // ajusta el ancho de las columnas según sea necesario\r\n});\r\n\r\n// Agregar datos a la tabla\r\npropiedades2.forEach(prop => {\r\n    tabla_propiedades2.push([prop.propiedad, prop.valor, prop.unidades]);\r\n})\r\n\r\n// Imprimir la tabla\r\nconsole.log(tabla_propiedades2.toString());"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "┌────────────────────────────────────────────────────────────┬────────────────────┬────────────────────┐",
+                                "│ Propiedad                                                  │ Valor              │ Unidades           │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo elástico de la matriz                               │ 3.4                │ GPa                │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo de Poisson de la matriz                             │ 0.31               │ --                 │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo de corte de la matriz                               │ 1.297709923664122  │ GPa                │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Fracción en Volumen de la matriz                           │ 0.4                │ %                  │",
+                                "└────────────────────────────────────────────────────────────┴────────────────────┴────────────────────┘",
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "# Regla de las Mezclas\r\n\r\n#### Módulo Longitudinal $E_{1\\,RM}$:\r\n$E_{1\\,RM} = E_m * V_m + V_f * E_{f\\,Axial}$"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const E1_RM = E_m * V_m + V_f * E_f_A;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Módulo Transversal $E_{2\\,RM}$:\r\n$E_{2\\,RM} = 1 / (V_m / E_m + V_f / E_{f\\,Axial} )$"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const E2_RM = 1 / (V_m / E_m + V_f / E_f_A);"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Relacion de Poisson en el plano $μ_{12\\,RM}$:\r\n$μ_{12\\,RM} = μ_{f\\,Axial} * V_f + μ_m * V_m $"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const NU12_RM = NU_f_A * V_f + NU_m * V_m;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Módulo de corte en el Plano $G_{12\\,RM}$:\r\n$G_{12\\,RM} = 1 / (V_m / G_m + V_f / G_{f\\,Axial})$"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const G12_RM = 1 / (V_m / G_m + V_f / G_f_A);"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Módulo de corte interlaminar $G_{13\\,RM}$:\r\n$G_{13\\,RM} = G_{12\\,RM}$"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const G13_RM = G12_RM;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Relación de Poisson en el plano $μ_{13\\,RM}$:\r\n$μ_{13\\,RM} = μ_{12\\,RM}$"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const NU13_RM = NU12_RM;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Módulo de corte interlaminar $G_{23\\,RM}$:\r\nEsta propiedad del material no se puede calcular con los supuestos iniciales de la regla de las mezclas. Para eso utilizamos otra teoría denominada técnica de parámetro semiempirico de partición de tensiones:\r\n\r\n$$\r\n\\begin{equation}\r\n\\begin{split}\r\n\\mu_4 = \\frac{{3 - 4 \\mu_m + \\frac{G_m}{{G_{f\\,Axial}}}}}{{4 \\cdot (1 - \\mu_m)}}\r\n\\end{split}\r\n\\end{equation}\r\n$$\r\n\r\nY entonces calculamos el Módulo de corte interlaminar como:\r\n\r\n$$\r\n\\begin{equation}\r\n\\begin{split}\r\nG_{23\\,RM} = G_m * \\frac{{V_f + μ_4 * (1 - V_f)}}{{μ_4 * (1 - V_f) + V_f * G_m / G_{f\\,Axial}}}\r\n\\end{split}\r\n\\end{equation}\r\n$$"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const NU_4 = (3 - 4 * NU_m + G_m / G_f_A) / (4 * (1 - NU_m));\r\nconst G23_RM = G_m * ((V_f + NU_4 * (1 - V_f)) / (NU_4 * (1 - V_f) + (V_f * G_m) / G_f_A));"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Relación de Poisson en el plano $μ_{13\\,RM}$:\r\n$μ_{13\\,RM} = μ_{12\\,RM}$"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const NU13_RM = NU12_RM;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "#### Relación de Poisson fuera del plano $μ_{23\\,RM}$:\r\n$μ_{23\\,RM} = E_{2\\,RM} / (2 * G_{23\\,RM}) - 1$"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const NU23_RM = (E2_RM / (2 * G23_RM)) - 1;"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "# Tabla de Resumen de las constantes ingenieriles calculadas mediante la Regla de las Mezclas:"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const Table3 = require('cli-table');\r\n\r\nconst propiedades3 = [\r\n    { propiedad: 'Módulo Longitudinal ', valor: E1_RM, unidades: 'GPa' },\r\n    { propiedad: 'Módulo Transversal', valor: E2_RM, unidades: 'GPa' },\r\n    { propiedad: 'Relacion de Poisson en el plano', valor: NU12_RM, unidades: '--' },\r\n    { propiedad: 'Relacion de Poisson interlaminar', valor: NU13_RM, unidades: '--' },\r\n    { propiedad: 'Relacion de Poisson interlaminar ', valor: NU23_RM, unidades: '--' },\r\n    { propiedad: 'Módulo de corte en el Plano', valor: G12_RM, unidades: 'GPa' },\r\n    { propiedad: 'Módulo de corte interlaminar', valor: G13_RM, unidades: 'GPa' },\r\n    { propiedad: 'Módulo de corte interlaminar', valor: G23_RM, unidades: 'GPa' }\r\n    ];\r\n\r\n// Crear una tabla con bordes\r\nconst tabla_propiedades3 = new Table3({\r\n    head: ['Constantes ingenieriles del material compuesto', 'Valor', 'Unidades'],\r\n    colWidths: [60, 20, 20] // ajusta el ancho de las columnas según sea necesario\r\n});\r\n\r\n// Agregar datos a la tabla\r\npropiedades3.forEach(prop => {\r\n    tabla_propiedades3.push([prop.propiedad, prop.valor, prop.unidades]);\r\n})\r\n\r\n// Imprimir la tabla\r\nconsole.log(tabla_propiedades3.toString());"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "┌────────────────────────────────────────────────────────────┬────────────────────┬────────────────────┐",
+                                "│ Constantes ingenieriles del material compuesto             │ Valor              │ Unidades           │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo Longitudinal                                        │ 145                │ GPa                │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo Transversal                                         │ 8.322699386503066  │ GPa                │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Relacion de Poisson en el plano                            │ 0.405999999999999… │ --                 │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Relacion de Poisson interlaminar                           │ 0.405999999999999… │ --                 │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Relacion de Poisson interlaminar                           │ -0.00160437646690… │ --                 │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo de corte en el Plano                                │ 3.168530508142044  │ GPa                │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo de corte interlaminar                               │ 3.168530508142044  │ GPa                │",
+                                "├────────────────────────────────────────────────────────────┼────────────────────┼────────────────────┤",
+                                "│ Módulo de corte interlaminar                               │ 4.168036793396048  │ GPa                │",
+                                "└────────────────────────────────────────────────────────────┴────────────────────┴────────────────────┘",
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
